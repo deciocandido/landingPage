@@ -81,6 +81,15 @@ const scrollId = function(e){
     }
 }
 
+const form = document.querySelector("#form");
+const complete = document.querySelector(".done");
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  complete.style.display = "block";
+  setTimeout(() => {
+    complete.style.display = "none";
+  }, 6000);
+});
 
 /**
  * End Main Functions
