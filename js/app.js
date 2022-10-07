@@ -22,96 +22,66 @@
  * Define Global Variables
  * 
 */
-const navBars  = document.querySelectorAll('[data-nav]');
+const navBars = document.querySelectorAll('[data-nav]');
 const navBarList = document.getElementById('navbar__list');
 const menuLinks = document.querySelectorAll('.menu__link');
+const sections = document.querySelectorAll('section');
+let ul = document.getElementById("navbar__list")
 
 /**
  * End Global Variables
  * Start Helper Functions
  * 
 */
-
-
+// build the nav
+navBars.forEach((individualSection) => {
+    let linkText = individualSection.getAttribute("data-nav")
+    let li = document.createElement('li')
+    li.setAttribute("id", linkText)
+    li.addEventListener("click", function () {
+        individualSection.scrollIntoView({ behavior: "smooth" })
+    })
+    let text = document.createTextNode(linkText)
+    li.appendChild(text)
+    ul.appendChild(li)
+})
 
 /**
  * End Helper Functions
  * Begin Main Functions
  * 
 */
-
-// build the nav
-const buildNav = function(e){
-    for (let navBar of navBars) {
-        const datasetValue = navBar.dataset.nav;
-        const navegationItem = document.createElement('li');
-        const navegationAnchor = document.createElement('a');
-        navegationAnchor.setAttribute('class', 'menu__link');
-        navegationAnchor.setAttribute('href', `#${navBar.id}`);
-        navegationAnchor.innerHTML = datasetValue;
-        navegationItem.append(navegationAnchor); 
-        navBarList.appendChild(navegationItem);
-    }
-}
-
-
-// Add class 'active' to section when near top of viewport
-const makeActive = function(e){
-    for (let navBar of navBars) {
-        const box = navBar.getBoundingClientRect();
-        if(box.top <= 100 && box.bottom >= 100) { 
-            navBar.classList.add('your-active-class');
-        } else {
-            navBar.classList.remove('your-active-class');
-        }
-    }
-}
-
 // Scroll to anchor ID using scrollTO event
-const scrollId = function(e){
-    for (let menuLink of menuLinks){
-        const navItem = e.target;
-        const element = document.querySelector(
-            navItem.getAttribute('href')
-        );
-        scrollBy({
-            top: element.getBoundingClientRect().top,
-            behavior: 'smooth',
-        });
-    }
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return rect.top < window.innerHeight * 0.5 && rect.bottom > window.innerHeight * 0.5;
 }
-
-const form = document.querySelector("#form");
-const complete = document.querySelector(".done");
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  complete.style.display = "block";
-  setTimeout(() => {
-    complete.style.display = "none";
-  }, 6000);
-});
+window.addEventListener("scroll", function () {
+    const navList = document.querySelectorAll('#navbar__list > li')
+    sections.forEach(function (elem) {
+        const list = elem.classList;
+        if (isInViewport(elem)) {
+            list.add('your-active-class')
+            navList.forEach(nav => {
+                console.log(nav);
+                if (nav.id === elem.dataset.nav) {
+                    nav.classList.add('active')
+                } else {
+                    nav.classList.remove('active')
+                }
+            })
+        } else {
+            list.remove('your-active-class')
+        }
 
 /**
  * End Main Functions
  * Begin Events
- * 
-*/
-
-// Submit 
-// Build menu 
-document.addEventListener('DOMContentLoaded', (e) => {
-    e.preventDefault();
-    buildNav();
-});
-
-// Scroll to section on link click
-document.addEventListener('click', (e) => {
-    e.preventDefault();
-    scrollId(e);
-});
-
-// Set sections as active
-document.addEventListener('scroll', (e) => { 
-    e.preventDefault();
-    makeActive();
-});
+ */
+// Form event
+const form = document.getElementById('form');
+form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    form.classList.add("submitted-active")
+    form.textContent = "thank you for submitting!"
+})
