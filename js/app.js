@@ -78,7 +78,7 @@ window.addEventListener("scroll", function () {
  * End Main Functions
  * Begin Events
  */
-// Form event
+// Form event ID
 const form = document.getElementById('form');
 form.addEventListener("submit", function (event) {
     event.preventDefault();
