@@ -73,8 +73,6 @@ window.addEventListener("scroll", function () {
         } else {
             list.remove('your-active-class')
         }
-    })
-})
 
 /**
  * End Main Functions
