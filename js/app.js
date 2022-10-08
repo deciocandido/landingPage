@@ -74,6 +74,7 @@ window.addEventListener("scroll", function () {
             list.remove('your-active-class')
         }
 
+
 /**
  * End Main Functions
  * Begin Events
