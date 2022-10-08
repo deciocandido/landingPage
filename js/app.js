@@ -76,6 +76,7 @@ window.addEventListener("scroll", function () {
     })
 })
 
+
 /**
  * End Main Functions
  * Begin Events
